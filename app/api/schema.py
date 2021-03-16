@@ -46,7 +46,26 @@ class AddUser(graphene.Mutation):
         db_session.commit()
         return AddUser(user=user)
 
+class AddBook(graphene.Mutation):
+    class Arguments:
+        title = graphene.String(required=True)
+        description = graphene.String(required=True)
+        year = graphene.Int(required=True)
+        username = graphene.String(required=True)
+    
+    book = graphene.Field(lambda: BookObject)
+
+    def mutate(self, info, title, description, year, username):
+        user = User.query.filter_by(username=username).first()
+        book = Book(title=title, description=description, year=year)
+        if user is not None:
+            book.author_id = user.id
+        db_session.add(book)
+        db_session.commit()
+        return AddBook(book=book)
+
 class Mutation(graphene.ObjectType):
     add_user = AddUser.Field()
+    add_book = AddBook.Field()
 
 schema = graphene.Schema(query=Query, mutation=Mutation)
