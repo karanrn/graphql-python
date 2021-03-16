@@ -4,6 +4,7 @@ from graphene_sqlalchemy import SQLAlchemyConnectionField
 
 from books.models import Book
 from users.models import User
+from database import db_session
 
 class BookObject(SQLAlchemyObjectType):
     class Meta:
@@ -20,4 +21,20 @@ class Query(graphene.ObjectType):
     all_books = SQLAlchemyConnectionField(BookObject.connection)
     all_users = SQLAlchemyConnectionField(UserObject.connection)
 
-schema = graphene.Schema(query=Query)
+class AddUser(graphene.Mutation):
+    class Arguments:
+        username = graphene.String(required=True)
+        email = graphene.String(required=True)
+    
+    user = graphene.Field(lambda: UserObject)
+
+    def mutate(self, info, username, email):
+        user = User(username=username, email=email)
+        db_session.add(user)
+        db_session.commit()
+        return AddUser(user=user)
+
+class Mutation(graphene.ObjectType):
+    add_user = AddUser.Field()
+
+schema = graphene.Schema(query=Query, mutation=Mutation)

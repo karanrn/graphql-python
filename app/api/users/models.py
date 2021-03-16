@@ -20,8 +20,7 @@ class User(Base, DictMixIn):
     email = Column(String(120), unique=True, nullable=False)
     books = relationship('Book', backref='author')
 
-    def __init__(self, id, username, email):
-      self.id = id
+    def __init__(self, username, email):
       self.username = username
       self.email = email
 
