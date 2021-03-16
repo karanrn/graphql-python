@@ -1,6 +1,7 @@
 import graphene
 from graphene_sqlalchemy import SQLAlchemyObjectType
 from graphene_sqlalchemy import SQLAlchemyConnectionField
+from graphql import GraphQLError
 
 from books.models import Book
 from users.models import User
@@ -29,6 +30,9 @@ class AddUser(graphene.Mutation):
     user = graphene.Field(lambda: UserObject)
 
     def mutate(self, info, username, email):
+        ifUser = User.query.filter_by(username=username).first()
+        if ifUser is not None:
+            raise Exception('User exists!')
         user = User(username=username, email=email)
         db_session.add(user)
         db_session.commit()
