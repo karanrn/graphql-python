@@ -10,17 +10,25 @@ from database import db_session
 class BookObject(SQLAlchemyObjectType):
     class Meta:
         model = Book
-        interfaces = (graphene.relay.Node, )
+        #interfaces = (graphene.relay.Node, )
 
 class UserObject(SQLAlchemyObjectType):
     class Meta:
         model = User
-        interfaces = (graphene.relay.Node, )
+        #interfaces = (graphene.relay.Node, )
 
 class Query(graphene.ObjectType):
-    node = graphene.relay.Node.Field()
-    all_books = SQLAlchemyConnectionField(BookObject.connection)
-    all_users = SQLAlchemyConnectionField(UserObject.connection)
+    #node = graphene.relay.Node.Field()
+    all_users = graphene.List(UserObject)
+    all_books = graphene.List(BookObject)
+
+    def resolve_all_users(self, info, **kwargs):
+        return User.query.all()
+
+    def resolve_all_books(self, info, **kwargs):
+        return Book.query.all()
+    # all_books = SQLAlchemyConnectionField(BookObject.connection)
+    # all_users = SQLAlchemyConnectionField(UserObject.connection)
 
 class AddUser(graphene.Mutation):
     class Arguments:
