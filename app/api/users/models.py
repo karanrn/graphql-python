@@ -18,7 +18,7 @@ class User(Base, DictMixIn):
     id = Column(Integer, primary_key=True)
     username = Column(String(80), unique=True, index=True, nullable=False)
     email = Column(String(120), unique=True, nullable=False)
-    books = relationship('Book', backref='users.id')
+    books = relationship('Book', backref='author')
 
     def __init__(self, id, username, email):
       self.id = id

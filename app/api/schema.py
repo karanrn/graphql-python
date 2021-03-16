@@ -1,13 +1,23 @@
 import graphene
+from graphene_sqlalchemy import SQLAlchemyObjectType
+from graphene_sqlalchemy import SQLAlchemyConnectionField
 
-import users.schema
-import books.schema
+from books.models import Book
+from users.models import User
 
-class Query(
-    users.schema.Query,
-    books.schema.Query,
-    graphene.ObjectType
-):
-    pass
+class BookObject(SQLAlchemyObjectType):
+    class Meta:
+        model = Book
+        interfaces = (graphene.relay.Node, )
+
+class UserObject(SQLAlchemyObjectType):
+    class Meta:
+        model = User
+        interfaces = (graphene.relay.Node, )
+
+class Query(graphene.ObjectType):
+    node = graphene.relay.Node.Field()
+    all_books = SQLAlchemyConnectionField(BookObject.connection)
+    all_users = SQLAlchemyConnectionField(UserObject.connection)
 
 schema = graphene.Schema(query=Query)
