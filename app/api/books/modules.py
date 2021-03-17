@@ -27,3 +27,17 @@ class AddBook(graphene.Mutation):
         db_session.add(book)
         db_session.commit()
         return AddBook(book=book)
+
+class DeleteBook(graphene.Mutation):
+    class Arguments:
+        title = graphene.String(required=True)
+    
+    book = graphene.Field(lambda: BookObject)
+
+    def mutate(self, info, title):
+        book = Book.query.filter_by(title=title).first()
+        if book is None:
+            raise Exception('book does not exist in the catalogue!')
+        db_session.delete(book)
+        db_session.commit()
+        return DeleteBook(book=book)

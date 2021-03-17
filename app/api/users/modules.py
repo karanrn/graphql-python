@@ -19,7 +19,7 @@ class AddUser(graphene.Mutation):
     def mutate(self, info, username, email):
         ifUser = User.query.filter_by(username=username).first()
         if ifUser is not None:
-            raise Exception('User exists!')
+            raise Exception('user exists!')
         user = User(username=username, email=email)
         db_session.add(user)
         db_session.commit()

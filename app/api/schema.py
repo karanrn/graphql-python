@@ -1,7 +1,7 @@
 import graphene
 
 from books.models import Book
-from books.modules import BookObject, AddBook
+from books.modules import BookObject, AddBook, DeleteBook
 from users.models import User
 from users.modules import UserObject, AddUser
 
@@ -35,5 +35,6 @@ class Query(graphene.ObjectType):
 class Mutation(graphene.ObjectType):
     add_user = AddUser.Field()
     add_book = AddBook.Field()
+    delete_book = DeleteBook.Field()
 
 schema = graphene.Schema(query=Query, mutation=Mutation)
