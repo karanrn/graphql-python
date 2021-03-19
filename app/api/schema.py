@@ -1,7 +1,10 @@
 import graphene
+import json
+import requests
 
 from books.models import Book
 from books.modules import BookObject, AddBook, DeleteBook
+from cars.models import CarType, CarTypeDecoder
 from users.models import User
 from users.modules import UserObject, AddUser
 
@@ -9,6 +12,7 @@ class Query(graphene.ObjectType):
     node = graphene.relay.Node.Field()
     all_users = graphene.List(UserObject, search=graphene.String())
     all_books = graphene.List(BookObject, search=graphene.String())
+    all_cars = graphene.List(CarType, plateNumber=graphene.String())
 
     def resolve_all_users(self, info, search=None, **kwargs):
         if search:
@@ -29,6 +33,20 @@ class Query(graphene.ObjectType):
             )
             return Book.query.filter(filter_book).all()
         return Book.query.all()
+    
+    def resolve_all_cars(self, info, plateNumber=None, **kwargs):
+        ''' Querying from REST API '''
+        base_url = 'https://mvrp.herokuapp.com/api/'
+        if plateNumber is None:
+            url = base_url + 'cars/'
+            response = requests.get(url)
+            carList = json.loads(response.text, object_hook=CarTypeDecoder)
+        else:
+            url = base_url + 'car?plateNumber=' + str(plateNumber)
+            response = requests.get(url)
+            carList = []
+            carList.append(json.loads(response.text, object_hook=CarTypeDecoder))
+        return carList
     # all_books = SQLAlchemyConnectionField(BookObject.connection)
     # all_users = SQLAlchemyConnectionField(UserObject.connection)
 

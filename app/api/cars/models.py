@@ -1,6 +1,4 @@
 import graphene
-import requests
-import json
 from collections import namedtuple
 
 class CarType(graphene.ObjectType):
