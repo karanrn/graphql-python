@@ -26,22 +26,3 @@ class CarType(graphene.ObjectType):
 
 def CarTypeDecoder(carDict):
     return namedtuple('X', carDict.keys())(*carDict.values())
-
-class Query(graphene.ObjectType):
-    node = graphene.relay.Node.Field()
-    all_cars = graphene.List(CarType, plateNumber=graphene.String())
-
-    def resolve_all_cars(self, info, plateNumber=None, **kwargs):
-        base_url = 'https://mvrp.herokuapp.com/api/'
-        if plateNumber is None:
-            url = base_url + 'cars/'
-            response = requests.get(url)
-            carList = json.loads(response.text, object_hook=CarTypeDecoder)
-        else:
-            url = base_url + 'car?plateNumber=' + str(plateNumber)
-            response = requests.get(url)
-            carList = []
-            carList.append(json.loads(response.text, object_hook=CarTypeDecoder))
-        return carList
-
-schema = graphene.Schema(query=Query)
