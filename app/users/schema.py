@@ -5,16 +5,30 @@ from .modules import UserObject
 
 class Query(graphene.ObjectType):
     # node = graphene.relay.Node.Field()
-    all_users = graphene.List(UserObject, search=graphene.String())
+    all_users = graphene.List(UserObject, 
+    search=graphene.String(),
+    first=graphene.Int(),
+    skip=graphene.Int())
 
-    def resolve_all_users(self, info, search=None, **kwargs):
+    def resolve_all_users(self, info, first=None, skip=None, search=None, **kwargs):
+        result = []
         if search:
             # Search both username and email
             filter_user = (
                 User.username.like('%'+search+"%") | 
                 User.email.like('%'+search+"%")
             )
-            return User.query.filter(filter_user).all()
-        return User.query.all()
+            result = User.query.filter(filter_user).all()
+        else:
+            result = User.query.all()
+        if skip:
+            # skips first n items
+            result = result[skip:]
+        
+        if first:
+            # returns first n items from result
+            result = result[:first]
+    
+        return result
     # all_books = SQLAlchemyConnectionField(BookObject.connection)
     # all_users = SQLAlchemyConnectionField(UserObject.connection)

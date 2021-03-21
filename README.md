@@ -8,3 +8,4 @@ A simple implementation to understand graphQL
 3. [GraphQL-Flask](https://jeffersonheard.github.io/python/graphql/2018/12/08/graphene-python.html)
 4. [SQLAlchemy instead of Flask-SQLAlchemy](https://towardsdatascience.com/use-flask-and-sqlalchemy-not-flask-sqlalchemy-5a64fafe22a4)
 5. [Graphene-Python](https://docs.graphene-python.org/en/latest/)
+6. [How to use Fields, Fragments, and more](https://betterprogramming.pub/graphql-tutorial-how-to-use-fields-fragments-and-more-ec478896ede7)
