@@ -4,7 +4,6 @@ from .models import Book
 from .modules import BookObject
 
 class Query(graphene.ObjectType):
-    # node = graphene.relay.Node.Field()
     all_books = graphene.List(BookObject, 
     search=graphene.String(),
     first=graphene.Int(),
@@ -31,5 +30,3 @@ class Query(graphene.ObjectType):
             result = result[:first]
     
         return result
-    # all_books = SQLAlchemyConnectionField(BookObject.connection)
-    # all_users = SQLAlchemyConnectionField(UserObject.connection)

@@ -7,7 +7,6 @@ from database import db_session
 class UserObject(SQLAlchemyObjectType):
     class Meta:
         model = User
-        #interfaces = (graphene.relay.Node, )
 
 class AddUser(graphene.Mutation):
     class Arguments:

@@ -3,7 +3,6 @@ import graphene
 from .models import CarType, CarTypeDecoder
 
 class Query(graphene.ObjectType):
-    # node = graphene.relay.Node.Field()
     all_cars = graphene.List(CarType, plateNumber=graphene.String())
     
     def resolve_all_cars(self, info, plateNumber=None, **kwargs):
@@ -19,5 +18,3 @@ class Query(graphene.ObjectType):
             carList = []
             carList.append(json.loads(response.text, object_hook=CarTypeDecoder))
         return carList
-    # all_books = SQLAlchemyConnectionField(BookObject.connection)
-    # all_users = SQLAlchemyConnectionField(UserObject.connection)

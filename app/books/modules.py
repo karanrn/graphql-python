@@ -8,7 +8,6 @@ from users.models import User
 class BookObject(SQLAlchemyObjectType):
     class Meta:
         model = Book
-        #interfaces = (graphene.relay.Node, )
 
 class AddBook(graphene.Mutation):
     class Arguments:
