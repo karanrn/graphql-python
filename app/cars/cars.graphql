@@ -1,0 +1,15 @@
+type Car {
+    id: Int!
+    plateNumber: String!
+    color: String!
+    model: String!
+    chasisNumber: String!
+    status: String!
+    productionYear: Int!
+    issueDate: Date!
+    expiryDate: Date!
+}
+
+type Query {
+    all_cars(plateNumber: String!): [Car!]
+}

@@ -1,0 +1,22 @@
+type Book {
+    title: String!
+    description: String!
+    year: Int!
+    author: User!
+}
+
+type Query {
+    all_books(search: String!): [Book]
+}
+
+type Mutation {
+    addBook(tinput: BookInput!): Book
+    deleteBook(title: String!): Book
+}
+
+input BookInput {
+    title: String!
+    description: String!
+    year: Int!
+    username: String!
+}
