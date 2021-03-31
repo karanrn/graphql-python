@@ -1,6 +1,7 @@
 from graphene_sqlalchemy import SQLAlchemyConnectionField
 
 class MyConnectionField(SQLAlchemyConnectionField):
+    # Below attributes/fields are for pagination and implemented by relay 
     RELAY_ARGS = ['first', 'last', 'before', 'after']
 
     @classmethod
