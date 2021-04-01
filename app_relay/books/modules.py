@@ -2,8 +2,8 @@ import graphene
 from graphene_sqlalchemy import SQLAlchemyObjectType
 
 from .models import Book
-from database import db_session
-from users.models import User
+from app_relay.database import db_session
+from app_relay.users.models import User
 
 class BookObject(SQLAlchemyObjectType):
     class Meta:

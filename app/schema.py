@@ -2,13 +2,13 @@ import graphene
 import json
 import requests
 
-import books.schema
-from books.modules import AddBook, DeleteBook
-import users.schema
-from users.modules import AddUser
-import cars.schema
+import app.books.schema
+from app.books.modules import AddBook, DeleteBook
+import app.users.schema
+from app.users.modules import AddUser
+import app.cars.schema
 
-class Query(users.schema.Query, books.schema.Query, cars.schema.Query):
+class Query(app.users.schema.Query, app.books.schema.Query, app.cars.schema.Query):
     pass
 
 class Mutation(graphene.ObjectType):

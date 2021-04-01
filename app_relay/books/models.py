@@ -5,7 +5,7 @@ from sqlalchemy import Text
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
 
-from database import Base
+from app_relay.database import Base
 
 class DictMixIn:
   def to_dict(self):

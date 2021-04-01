@@ -2,7 +2,7 @@ import graphene
 from graphene_sqlalchemy import SQLAlchemyObjectType
 
 from .models import User
-from database import db_session
+from app_relay.database import db_session
 
 class UserObject(SQLAlchemyObjectType):
     class Meta:

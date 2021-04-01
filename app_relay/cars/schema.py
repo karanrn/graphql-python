@@ -1,4 +1,6 @@
 import graphene
+import json
+import requests
 
 from .models import CarType, CarTypeDecoder
 
